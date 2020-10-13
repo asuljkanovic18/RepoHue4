@@ -18,20 +18,36 @@ import java.util.logging.Logger;
  * @author anels
  */
 public class Divider {
-    
-    ArrayList<Integer> liste = new ArrayList<Integer>();
-    
-    public void Reader(String filename) throws FileNotFoundException{
+
+    ArrayList<Integer> liste = new ArrayList<>();
+
+    public ArrayList<Integer> Reader(String filename) throws FileNotFoundException {
+        
         FileReader file = new FileReader(filename);
         BufferedReader br = new BufferedReader(file);
-        String s ="";
-        
+        String s = "";
+
         try {
-            while((s = br.readLine())!=null){
-                
+            while ((s = br.readLine()) != null) {
+                br.readLine();
+                String[] line = s.split(":");
+                for (String string : line) {
+                    try{
+                    Integer.parseInt(string);
+                    liste.add(Integer.parseInt(string));
+                    }catch(final NumberFormatException e){
+                    
+                    }
+                }
+
             }
-                } catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Divider.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return liste;
+    }
+    
+    public void divid(int divider, int chunks){
+        
     }
 }

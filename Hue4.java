@@ -5,17 +5,24 @@
  */
 package hue4.RepoHue4;
 
+import java.io.FileNotFoundException;
+import java.util.List;
+
 /**
  *
  * @author anels
  */
 public class Hue4 {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    
+    public static void main(String[] args) throws FileNotFoundException {
+        Divider d = new Divider();
+        /*List<Integer> l;
+        l = d.Reader("numbers.csv");
+        for (Integer integer : l) {
+            System.out.println(integer);
+            
+        }*/
+        d.divid(10, 2);
     }
     
 }
