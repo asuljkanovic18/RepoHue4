@@ -37,6 +37,13 @@ public class Divider extends Gausscal{
                 divid(Reader());
                 break;
             case 2:
+                int erg = gauss();
+                
+                System.out.println("Gauss Summe bis Obergrenze " + erg);
+                break;
+            default:
+                System.out.println("Gibt es nicht");
+                break;
                 
         }
     }
@@ -123,7 +130,7 @@ public class Divider extends Gausscal{
         }).filter(Objects::nonNull).mapToInt(Integer::intValue).sum();
         
         int check = IntStream.rangeClosed(1, m).sum();
-        return sum==check ? sum : -1;
+        return sum;
     }
     
     
