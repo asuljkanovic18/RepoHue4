@@ -11,17 +11,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 /**
  *
  * @author anels
  */
-public class Divider{
+public class Divider extends Gausscal{
     static Scanner sca = new Scanner(System.in);
     
     public static void main(String[] args) {
@@ -74,11 +77,6 @@ public class Divider{
         int chunks = Integer.parseInt(sca.nextLine());
         System.out.println("Welchen Teiler wollen sie verwenden");
         int divider = Integer.parseInt(sca.nextLine());
-        int[] input = new int[]{chunks, divider};
-        
-        while(input.length == 0 || (input[0]<1||(input[1]<1))){
-            
-        }
         int csize = list.size()/chunks;
         
         ThreadPoolExecutor exe = (ThreadPoolExecutor) Executors.newFixedThreadPool(chunks);
@@ -90,4 +88,43 @@ public class Divider{
             });
         }exe.shutdown();
     }
+
+    public Divider(int form, int to) {
+        super(form, to);
+    }
+    
+    private static int gauss(){
+        System.out.println("Obergrenze eingeben");
+        int m = Integer.parseInt(sca.nextLine());
+        int chunks = m/100 +1;
+        
+        final List<Future<Integer>> list = new ArrayList<>();
+        ThreadPoolExecutor exe = (ThreadPoolExecutor) Executors.newFixedThreadPool(chunks);
+        
+        for (int i= 1; i< m;i+=100){
+            int to = i + 99;
+            if (to > m) {
+                to = m;
+            }
+
+            list.add(exe.submit(new Gausscal(i, to)));
+        }
+        exe.shutdown();
+        
+        int sum = list.stream().map(fnctn -> {
+            try {
+                return fnctn.get();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Divider.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ExecutionException ex) {
+                Logger.getLogger(Divider.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
+        }).filter(Objects::nonNull).mapToInt(Integer::intValue).sum();
+        
+        int check = IntStream.rangeClosed(1, m).sum();
+        return sum==check ? sum : -1;
+    }
+    
+    
 }
