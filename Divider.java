@@ -22,14 +22,31 @@ import java.util.logging.Logger;
  * @author anels
  */
 public class Divider{
-    Scanner sca = new Scanner(System.in);
-
-    public ArrayList<Integer> Reader(String filename, ArrayList<Integer> list) throws FileNotFoundException {
+    static Scanner sca = new Scanner(System.in);
+    
+    public static void main(String[] args) {
+        System.out.println("1..Divid");
+        System.out.println("2..Gauss");
+        int ausw = Integer.parseInt(sca.nextLine());
         
-        FileReader file = new FileReader(filename);
+        switch(ausw){
+            case 1: 
+                divid(Reader());
+                break;
+            case 2:
+                
+        }
+    }
+
+    public static ArrayList<Integer> Reader(){
+        ArrayList<Integer> list = new ArrayList<>();
+        FileReader file;
+        try {
+            file = new FileReader("numbers.csv");
+        
         BufferedReader br = new BufferedReader(file);
         String s = "";
-
+        
         try {
             while ((s = br.readLine()) != null) {
                 br.readLine();
@@ -46,11 +63,13 @@ public class Divider{
             }
         } catch (IOException ex) {
             Logger.getLogger(Divider.class.getName()).log(Level.SEVERE, null, ex);
+        }} catch (FileNotFoundException ex) {
+            Logger.getLogger(Divider.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
     }
     
-    public void divid(List<Integer> list){
+    public static void divid(List<Integer> list){
         System.out.println("In wie viele chunks soll die liste geteilt werden");
         int chunks = Integer.parseInt(sca.nextLine());
         System.out.println("Welchen Teiler wollen sie verwenden");
